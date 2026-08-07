@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import logoAmf from "@/assets/logo-amf.png";
@@ -9,6 +10,7 @@ const navItems = [
   { href: "#skills", label: "Skills" },
   { href: "#projetos", label: "Projetos" },
   { href: "#contato", label: "Contato" },
+  { href: "/curriculo", label: "Currículo", isRoute: true },
 ];
 
 const Header = () => {
@@ -44,16 +46,27 @@ const Header = () => {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
-          {navItems.map((item) => (
-            <motion.a
-              key={item.href}
-              href={item.href}
-              className="text-muted-foreground hover:text-foreground transition-colors font-medium"
-              whileHover={{ y: -2 }}
-            >
-              {item.label}
-            </motion.a>
-          ))}
+          {navItems.map((item) =>
+            item.isRoute ? (
+              <motion.div key={item.href} whileHover={{ y: -2 }}>
+                <Link
+                  to={item.href}
+                  className="text-muted-foreground hover:text-foreground transition-colors font-medium"
+                >
+                  {item.label}
+                </Link>
+              </motion.div>
+            ) : (
+              <motion.a
+                key={item.href}
+                href={item.href}
+                className="text-muted-foreground hover:text-foreground transition-colors font-medium"
+                whileHover={{ y: -2 }}
+              >
+                {item.label}
+              </motion.a>
+            )
+          )}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -75,16 +88,27 @@ const Header = () => {
             className="md:hidden glass mt-2 mx-4 rounded-lg overflow-hidden"
           >
             <div className="flex flex-col p-4 gap-4">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="text-muted-foreground hover:text-foreground transition-colors font-medium py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.label}
-                </a>
-              ))}
+              {navItems.map((item) =>
+                item.isRoute ? (
+                  <Link
+                    key={item.href}
+                    to={item.href}
+                    className="text-muted-foreground hover:text-foreground transition-colors font-medium py-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className="text-muted-foreground hover:text-foreground transition-colors font-medium py-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </a>
+                )
+              )}
             </div>
           </motion.nav>
         )}

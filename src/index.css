@@ -144,3 +144,49 @@
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(217 33% 35%);
 }
+
+/* Curriculum / print PDF */
+.cv-heading {
+  @apply mb-2 border-b border-slate-300 pb-1 text-[0.7rem] font-bold uppercase tracking-[0.12em] text-slate-800;
+}
+
+.cv-avoid-break {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm 12mm 14mm;
+  }
+
+  html,
+  body {
+    background: white !important;
+    color: #0f172a !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .cv-page {
+    background: white !important;
+    min-height: auto !important;
+  }
+
+  .cv-sheet {
+    margin: 0 !important;
+    max-width: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+}
