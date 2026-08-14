@@ -5,6 +5,34 @@ import { ExternalLink, Folder } from "lucide-react";
 
 const projects = [
   {
+    title: "CADBRASIL — Hybrid Search + RAG no n8n",
+    description:
+      "Busca híbrida avançada para a CADBRASIL: semantic search + retrieval tradicional, pipeline RAG com embeddings e automações em n8n para consultar bases documentais e gerar respostas contextualizadas com IA.",
+    tech: ["Hybrid Search", "RAG", "n8n", "Embeddings", "Python", "Go", "MongoDB"],
+    category: "GenAI · CADBRASIL",
+  },
+  {
+    title: "Plataforma RAG Corporativa",
+    description:
+      "Arquitetura de GenAI com chunking, embeddings, PostgreSQL/pgvector, semantic search e integração com LLMs. Assistentes que consultam knowledge bases e APIs corporativas.",
+    tech: ["RAG", "pgvector", "LLMs", "Python", "FastAPI", "Semantic Search"],
+    category: "GenAI",
+  },
+  {
+    title: "AI Agents & Integração de IA",
+    description:
+      "Agentes com tool/function calling, orquestração de fluxos e integração de IA com ERPs, CRMs, webhooks e microservices em Go e Python.",
+    tech: ["AI Agents", "n8n", "Go", "Python", "REST APIs"],
+    category: "GenAI",
+  },
+  {
+    title: "ERP/CRM Grupo Sorrisos",
+    description:
+      "Arquitetura e evolução de plataforma ERP/CRM odontológica: regras de negócio, APIs, frontend/backend e ciclo completo de produto.",
+    tech: ["Software Architecture", "APIs", "PostgreSQL", "Full Stack"],
+    category: "ERP / CRM",
+  },
+  {
     title: "GooDesk",
     description:
       "Sistema completo de Suporte e Help Desk com conversão automática de Email para Ticket, gestão de SLA e dashboard analítico.",
@@ -66,34 +94,6 @@ const projects = [
     tech: ["Power BI", "SQL Server", "Python", "Azure"],
     category: "BI & Analytics",
   },
-  {
-    title: "E-commerce Marketplace",
-    description:
-      "Plataforma multi-vendor com gateway de pagamento, gestão de logística e sistema de avaliações.",
-    tech: ["PHP", "MySQL", "JavaScript", "Redis"],
-    category: "E-commerce",
-  },
-  {
-    title: "Sistema de Integração B2B",
-    description:
-      "Middleware para integração entre sistemas ERP, CRM e plataformas de e-commerce de grandes corporações.",
-    tech: ["Node.js", "RabbitMQ", "MongoDB", "AWS"],
-    category: "Integration",
-  },
-  {
-    title: "Portal de Autoatendimento",
-    description:
-      "Aplicação self-service para clientes com área restrita, gestão de tickets e base de conhecimento.",
-    tech: ["React", "TypeScript", "Express", "PostgreSQL"],
-    category: "Web Portal",
-  },
-  {
-    title: "Sistema de Logística",
-    description:
-      "Gestão completa de frotas, rastreamento em tempo real e otimização de rotas com algoritmos avançados.",
-    tech: ["React", "Node.js", "MongoDB", "Google Maps API"],
-    category: "Logistics",
-  },
 ];
 
 const clients = [
@@ -125,6 +125,10 @@ const ProjectsSection = () => {
             Projetos & <span className="gradient-text">Portfólio</span>
           </h2>
           <div className="w-24 h-1 mx-auto rounded-full" style={{ background: "var(--gradient-primary)" }} />
+          <p className="text-muted-foreground mt-6 max-w-2xl mx-auto">
+            Projetos de GenAI (RAG, Hybrid Search, n8n) e produtos Full Stack
+            entregues em produção.
+          </p>
         </motion.div>
 
         {/* Projects Grid */}

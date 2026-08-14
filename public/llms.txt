@@ -1,0 +1,35 @@
+# Anderson Mautone
+
+> Senior Software Architect | AI & GenAI Engineer | Senior Full Stack Developer
+> São Paulo, Brasil — contato@mautone.com.br — https://mautone.com.br
+
+Anderson Mautone is a software architect and generative AI engineer with 28 years of experience in corporate systems, SaaS, ERP/CRM, APIs, cloud and Full Stack development. International education at Université de Liège (Belgium).
+
+## Expertise
+
+- Generative AI / GenAI, LLMs, RAG (Retrieval Augmented Generation)
+- Hybrid Search, Semantic Search, Vector Search, embeddings
+- AI Agents, tool calling, function calling, n8n automations
+- Integration of AI with corporate APIs and systems
+- Go / Golang microservices, Python / FastAPI, Node.js, TypeScript, React, Next.js
+- MongoDB, PostgreSQL, pgvector, Supabase, SQL, Oracle
+- Software Architecture, Solution Architecture, Cloud-Native, Docker, Kubernetes, GCP
+
+## Notable projects
+
+- CADBRASIL: advanced Hybrid Search with RAG and n8n automations over corporate document knowledge bases.
+- Corporate RAG platform: document pipeline, chunking, embeddings, PostgreSQL/pgvector, semantic search and LLM integration.
+- Grupo Sorrisos: ERP/CRM architecture and development for dental operations.
+- Products: GooDesk, UniStays, WeJob, Selfmart, Desenvolve Bem, Investin.
+
+## Pages
+
+- [Home](https://mautone.com.br/): portfolio, skills and AI projects
+- [Curriculum](https://mautone.com.br/curriculo): printable CV
+- [LinkedIn](https://www.linkedin.com/in/anderson-mautone-a005b9a/)
+
+## Contact
+
+- Email: contato@mautone.com.br
+- Phone: +55 (11) 9.8440-1158
+- Location: São Paulo, Brazil

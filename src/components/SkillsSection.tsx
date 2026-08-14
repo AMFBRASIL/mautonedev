@@ -2,26 +2,49 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 
-const webSkills = [
-  { name: "React", level: 95 },
-  { name: "Node.js", level: 90 },
-  { name: "TypeScript", level: 92 },
-  { name: "JavaScript", level: 98 },
-  { name: "PHP", level: 95 },
-  { name: "HTML5/CSS3", level: 98 },
-  { name: "Express.js", level: 88 },
-  { name: "REST APIs", level: 95 },
+const skillGroups = [
+  {
+    title: "Inteligência Artificial & GenAI",
+    accent: "bg-primary",
+    items: [
+      { name: "RAG / Retrieval Augmented Generation", level: 95 },
+      { name: "Hybrid Search & Semantic Search", level: 94 },
+      { name: "Embeddings & Vector Search", level: 93 },
+      { name: "AI Agents / Tool Calling", level: 90 },
+      { name: "n8n & AI Automation", level: 92 },
+      { name: "LLM Integration (OpenAI, Gemini, Claude)", level: 92 },
+    ],
+  },
+  {
+    title: "Linguagens & Backend",
+    accent: "bg-accent",
+    items: [
+      { name: "Python / FastAPI", level: 94 },
+      { name: "Go / Golang", level: 90 },
+      { name: "Node.js / TypeScript", level: 95 },
+      { name: "React / Next.js", level: 95 },
+      { name: "MongoDB", level: 90 },
+      { name: "PostgreSQL / pgvector", level: 93 },
+    ],
+  },
 ];
 
-const advancedSkills = [
-  { name: "SQL Server", level: 95 },
-  { name: "PostgreSQL", level: 90 },
-  { name: "MySQL", level: 92 },
-  { name: "MongoDB", level: 85 },
-  { name: "Data Warehouse", level: 90 },
-  { name: "ETL", level: 88 },
-  { name: "Power BI", level: 85 },
-  { name: "Arquitetura de Sistemas", level: 95 },
+const extraTags = [
+  "JavaScript",
+  "PHP / Laravel",
+  "REST APIs",
+  "Microservices",
+  "TanStack",
+  "Supabase",
+  "Docker",
+  "Kubernetes",
+  "GCP",
+  "SQL",
+  "Oracle",
+  "MySQL",
+  "ETL",
+  "Power BI",
+  "Software Architecture",
 ];
 
 const SkillBar = ({
@@ -73,58 +96,58 @@ const SkillsSection = () => {
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
             <span className="gradient-text">Skills</span> & Tecnologias
           </h2>
-          <div className="w-24 h-1 mx-auto rounded-full" style={{ background: "var(--gradient-primary)" }} />
+          <div
+            className="w-24 h-1 mx-auto rounded-full"
+            style={{ background: "var(--gradient-primary)" }}
+          />
           <p className="text-muted-foreground mt-6 max-w-2xl mx-auto">
-            Domínio completo do stack de desenvolvimento web moderno, combinado
-            com expertise em bancos de dados e Business Intelligence.
+            Profissional nas linguagens e plataformas usadas em arquitetura
+            corporativa e em produtos de IA: Go, Python, TypeScript, MongoDB e
+            o ecossistema RAG / Hybrid Search.
           </p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12">
-          {/* Web Technologies */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="glass rounded-2xl p-8"
-          >
-            <h3 className="text-xl font-bold mb-6 flex items-center gap-3">
-              <span className="w-3 h-3 rounded-full bg-primary" />
-              Desenvolvimento Web
-            </h3>
-            {webSkills.map((skill, index) => (
-              <SkillBar
-                key={skill.name}
-                name={skill.name}
-                level={skill.level}
-                delay={0.3 + index * 0.05}
-                isInView={isInView}
-              />
-            ))}
-          </motion.div>
-
-          {/* Advanced Technologies */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="glass rounded-2xl p-8"
-          >
-            <h3 className="text-xl font-bold mb-6 flex items-center gap-3">
-              <span className="w-3 h-3 rounded-full bg-accent" />
-              Banco de Dados & BI
-            </h3>
-            {advancedSkills.map((skill, index) => (
-              <SkillBar
-                key={skill.name}
-                name={skill.name}
-                level={skill.level}
-                delay={0.5 + index * 0.05}
-                isInView={isInView}
-              />
-            ))}
-          </motion.div>
+          {skillGroups.map((group, gIndex) => (
+            <motion.div
+              key={group.title}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2 + gIndex * 0.15 }}
+              className="glass rounded-2xl p-8"
+            >
+              <h3 className="text-xl font-bold mb-6 flex items-center gap-3">
+                <span className={`w-3 h-3 rounded-full ${group.accent}`} />
+                {group.title}
+              </h3>
+              {group.items.map((skill, index) => (
+                <SkillBar
+                  key={skill.name}
+                  name={skill.name}
+                  level={skill.level}
+                  delay={0.3 + index * 0.05}
+                  isInView={isInView}
+                />
+              ))}
+            </motion.div>
+          ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="flex flex-wrap justify-center gap-2 mt-12"
+        >
+          {extraTags.map((tag) => (
+            <span
+              key={tag}
+              className="px-3 py-1.5 text-xs md:text-sm rounded-lg glass text-muted-foreground"
+            >
+              {tag}
+            </span>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

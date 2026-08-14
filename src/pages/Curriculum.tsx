@@ -6,7 +6,7 @@ const skillBlocks = [
   {
     title: "Inteligência Artificial & GenAI",
     items:
-      "Generative AI • LLMs • RAG • AI Agents • Embeddings • Vector Search • Vector Databases • Prompt Engineering • Tool Calling • Function Calling • Semantic Search • LLM API Integration • AI Automation • Knowledge Bases",
+      "Generative AI • LLMs • RAG • AI Agents • Embeddings • Vector Search • Vector Databases • Hybrid Search • Semantic Search • Prompt Engineering • Tool Calling • Function Calling • LLM API Integration • AI Automation • n8n • Knowledge Bases",
     note: "OpenAI API • GPT • Google Gemini • Vertex AI • Claude • PostgreSQL/pgvector • Supabase • LangChain • LlamaIndex",
   },
   {
@@ -38,7 +38,7 @@ const skillBlocks = [
   {
     title: "Bancos de Dados & BI",
     items:
-      "PostgreSQL • MySQL • Oracle • SQL Server • MongoDB • Firebase • Supabase • pgvector • Vector Databases • SQL • Database Modeling • Query Optimization • Data Warehouse • ETL • SSIS • Power BI • Tableau • MicroStrategy",
+      "PostgreSQL • MySQL • MongoDB • Oracle • SQL Server • Firebase • Supabase • pgvector • Vector Databases • SQL • Database Modeling • Query Optimization • Data Warehouse • ETL • SSIS • Power BI • Tableau • MicroStrategy",
     note: "Destaque: Semantic Search & Vector Search com PostgreSQL / pgvector",
   },
   {
@@ -273,6 +273,29 @@ const Curriculum = () => {
           <h2 className="cv-heading">Projetos Relevantes</h2>
 
           <article className="cv-avoid-break mt-3">
+            <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between">
+              <h3 className="text-[0.9rem] font-bold text-slate-900">
+                CADBRASIL — Hybrid Search avançado com RAG e n8n
+              </h3>
+              <span className="text-[0.75rem] font-medium text-slate-500">
+                GenAI · Hybrid Search
+              </span>
+            </div>
+            <p className="mt-1.5 text-[0.82rem] leading-relaxed text-slate-700">
+              Projeto de busca híbrida avançada para a CADBRASIL, combinando
+              Semantic Search (embeddings) e retrieval tradicional, pipeline RAG
+              e automações em n8n. A solução permite consultar bases documentais
+              corporativas e produzir respostas contextualizadas, com integração
+              de LLMs, Go, Python e MongoDB no ecossistema de dados.
+            </p>
+            <p className="mt-1.5 text-[0.75rem] text-slate-600">
+              <span className="font-semibold text-slate-700">Tecnologias:</span>{" "}
+              Hybrid Search • RAG • n8n • Embeddings • Semantic Search • Python •
+              Go • MongoDB • LLM
+            </p>
+          </article>
+
+          <article className="cv-avoid-break mt-4">
             <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between">
               <h3 className="text-[0.9rem] font-bold text-slate-900">
                 Plataforma RAG / Inteligência Artificial Corporativa

@@ -25,13 +25,20 @@ const Footer = () => {
           </div>
 
           <nav className="flex gap-6">
-            {["Home", "Sobre", "Skills", "Projetos", "Contato"].map((item) => (
+            {[
+              { href: "#home", label: "Home" },
+              { href: "#sobre", label: "Sobre" },
+              { href: "#ia", label: "GenAI" },
+              { href: "#skills", label: "Skills" },
+              { href: "#projetos", label: "Projetos" },
+              { href: "#contato", label: "Contato" },
+            ].map((item) => (
               <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
+                key={item.href}
+                href={item.href}
                 className="text-sm text-muted-foreground hover:text-primary transition-colors"
               >
-                {item}
+                {item.label}
               </a>
             ))}
           </nav>

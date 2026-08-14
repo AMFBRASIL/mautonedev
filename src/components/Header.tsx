@@ -7,6 +7,7 @@ import logoAmf from "@/assets/logo-amf.png";
 const navItems = [
   { href: "#home", label: "Home" },
   { href: "#sobre", label: "Sobre" },
+  { href: "#ia", label: "GenAI" },
   { href: "#skills", label: "Skills" },
   { href: "#projetos", label: "Projetos" },
   { href: "#contato", label: "Contato" },
