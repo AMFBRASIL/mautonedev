@@ -15,6 +15,21 @@ Anderson Mautone is a software architect and generative AI engineer with 28 year
 - MongoDB, PostgreSQL, pgvector, Supabase, SQL, Oracle
 - Software Architecture, Solution Architecture, Cloud-Native, Docker, Kubernetes, GCP
 
+## Knowledge base (technical guides)
+
+- [RAG — Retrieval Augmented Generation](https://mautone.com.br/conhecimentos/rag): how RAG retrieves corporate documents and grounds LLM answers; chunking, embeddings, pgvector, Python and Go.
+- [Semantic Search](https://mautone.com.br/conhecimentos/semantic-search): meaning-based retrieval with embeddings and vector databases.
+- [Hybrid Search](https://mautone.com.br/conhecimentos/hybrid-search): semantic + keyword/BM25 ranking; CADBRASIL case with RAG and n8n.
+- [Go and Python with AI](https://mautone.com.br/conhecimentos/golang-python-ia): FastAPI, microservices, concurrency, when to use each language in GenAI systems.
+- [AI + n8n](https://mautone.com.br/conhecimentos/ia-n8n): workflows, agents, webhooks and RAG orchestration.
+- [RAG in large AI projects](https://mautone.com.br/conhecimentos/rag-projetos-grandes): production architecture, ACL, evaluation, hybrid retrieval at scale.
+- [Go in production without business damage](https://mautone.com.br/conhecimentos/golang-producao): onboarding a live Golang service, risks (races, timeouts, irreversible migrations) and a rollback/canary plan.
+- [Embeddings](https://mautone.com.br/conhecimentos/embeddings): vector representations for Semantic Search and RAG.
+- [AI Agents](https://mautone.com.br/conhecimentos/ai-agents): tool/function calling with governed APIs and n8n.
+- [pgvector and MongoDB](https://mautone.com.br/conhecimentos/pgvector-mongodb): choosing a vector store for corporate RAG.
+- [RAG evaluation and governance](https://mautone.com.br/conhecimentos/avaliacao-governanca-rag): hallucination, ACL, PII and cost control.
+- Hub: [https://mautone.com.br/conhecimentos](https://mautone.com.br/conhecimentos)
+
 ## Notable projects
 
 - CADBRASIL: advanced Hybrid Search with RAG and n8n automations over corporate document knowledge bases.
@@ -25,6 +40,7 @@ Anderson Mautone is a software architect and generative AI engineer with 28 year
 ## Pages
 
 - [Home](https://mautone.com.br/): portfolio, skills and AI projects
+- [Knowledge](https://mautone.com.br/conhecimentos): GenAI technical guides
 - [Curriculum](https://mautone.com.br/curriculo): printable CV
 - [LinkedIn](https://www.linkedin.com/in/anderson-mautone-a005b9a/)
 

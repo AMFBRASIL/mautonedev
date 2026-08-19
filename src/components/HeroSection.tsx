@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowDown, Github, Linkedin, Mail, BookOpen } from "lucide-react";
+import { Link } from "react-router-dom";
 import FloatingTechIcon from "./FloatingTechIcon";
 import {
   ReactIcon,
@@ -167,14 +168,16 @@ const HeroSection = () => {
                 Ver projetos de IA
                 <ArrowDown size={18} />
               </motion.a>
-              <motion.a
-                href="#ia"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold glass hover:border-primary/50"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Stack GenAI
-              </motion.a>
+              <Link to="/conhecimentos">
+                <motion.span
+                  className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold glass hover:border-primary/50"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <BookOpen size={18} />
+                  Conhecimentos
+                </motion.span>
+              </Link>
             </div>
           </motion.div>
         </div>

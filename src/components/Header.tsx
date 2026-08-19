@@ -5,12 +5,12 @@ import { Menu, X } from "lucide-react";
 import logoAmf from "@/assets/logo-amf.png";
 
 const navItems = [
-  { href: "#home", label: "Home" },
-  { href: "#sobre", label: "Sobre" },
-  { href: "#ia", label: "GenAI" },
-  { href: "#skills", label: "Skills" },
-  { href: "#projetos", label: "Projetos" },
-  { href: "#contato", label: "Contato" },
+  { href: "/#home", label: "Home", isRoute: true },
+  { href: "/#sobre", label: "Sobre", isRoute: true },
+  { href: "/#ia", label: "GenAI", isRoute: true },
+  { href: "/conhecimentos", label: "Conhecimentos", isRoute: true },
+  { href: "/#projetos", label: "Projetos", isRoute: true },
+  { href: "/#contato", label: "Contato", isRoute: true },
   { href: "/curriculo", label: "Currículo", isRoute: true },
 ];
 
@@ -36,17 +36,15 @@ const Header = () => {
       }`}
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
-        <motion.a
-          href="#home"
-          className="flex items-center gap-2"
-          whileHover={{ scale: 1.05 }}
-        >
-          <img src={logoAmf} alt="AMF Dev" className="h-20 md:h-24 w-auto" />
-          <span className="text-xl md:text-2xl font-bold text-primary">dev</span>
-        </motion.a>
+        <motion.div whileHover={{ scale: 1.05 }}>
+          <Link to="/" className="flex items-center gap-2">
+            <img src={logoAmf} alt="AMF Dev" className="h-20 md:h-24 w-auto" />
+            <span className="text-xl md:text-2xl font-bold text-primary">dev</span>
+          </Link>
+        </motion.div>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-5">
           {navItems.map((item) =>
             item.isRoute ? (
               <motion.div key={item.href} whileHover={{ y: -2 }}>
@@ -72,7 +70,7 @@ const Header = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-foreground p-2"
+          className="lg:hidden text-foreground p-2"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -86,7 +84,7 @@ const Header = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden glass mt-2 mx-4 rounded-lg overflow-hidden"
+            className="lg:hidden glass mt-2 mx-4 rounded-lg overflow-hidden"
           >
             <div className="flex flex-col p-4 gap-4">
               {navItems.map((item) =>

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 
@@ -24,23 +25,25 @@ const Footer = () => {
             <span className="text-primary">código</span>
           </div>
 
-          <nav className="flex gap-6">
-            {[
-              { href: "#home", label: "Home" },
-              { href: "#sobre", label: "Sobre" },
-              { href: "#ia", label: "GenAI" },
-              { href: "#skills", label: "Skills" },
-              { href: "#projetos", label: "Projetos" },
-              { href: "#contato", label: "Contato" },
-            ].map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                {item.label}
-              </a>
-            ))}
+          <nav className="flex flex-wrap justify-center gap-6">
+            <Link
+              to="/conhecimentos"
+              className="text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              Conhecimentos
+            </Link>
+            <Link
+              to="/curriculo"
+              className="text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              Currículo
+            </Link>
+            <a
+              href="/#contato"
+              className="text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              Contato
+            </a>
           </nav>
         </motion.div>
       </div>

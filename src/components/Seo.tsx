@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { getArticle, knowledgeHub } from "@/data/knowledge";
 
 const SITE = "https://mautone.com.br";
 
 const pages: Record<
   string,
-  { title: string; description: string; path: string }
+  { title: string; description: string; path: string; keywords?: string }
 > = {
   "/": {
     title:
@@ -20,7 +21,33 @@ const pages: Record<
       "Currículo de Anderson Mautone: Software Architect, GenAI Engineer, RAG, Hybrid Search, n8n, AI Agents, Go, Python, PostgreSQL/pgvector e Full Stack.",
     path: "/curriculo",
   },
+  [knowledgeHub.path]: {
+    title: knowledgeHub.title,
+    description: knowledgeHub.description,
+    path: knowledgeHub.path,
+    keywords: knowledgeHub.keywords,
+  },
 };
+
+const defaultKeywords =
+  "Anderson Mautone, Software Architect, GenAI Engineer, RAG, Hybrid Search, embeddings, AI Agents, n8n, Go, Golang, Python, FastAPI, MongoDB, PostgreSQL, pgvector, Semantic Search, Vector Search, Next.js, React, Full Stack, CADBRASIL";
+
+function resolvePage(pathname: string) {
+  if (pages[pathname]) return pages[pathname];
+  if (pathname.startsWith("/conhecimentos/")) {
+    const slug = pathname.split("/")[2];
+    const article = getArticle(slug);
+    if (article) {
+      return {
+        title: article.seoTitle,
+        description: article.description,
+        path: `/conhecimentos/${article.slug}`,
+        keywords: article.keywords,
+      };
+    }
+  }
+  return pages["/"];
+}
 
 function upsertMeta(attr: "name" | "property", key: string, content: string) {
   let el = document.head.querySelector(`meta[${attr}="${key}"]`);
@@ -44,28 +71,27 @@ function upsertLink(rel: string, href: string) {
 
 const Seo = () => {
   const { pathname } = useLocation();
-  const page = pages[pathname] ?? pages["/"];
+  const page = resolvePage(pathname);
   const url = `${SITE}${page.path}`;
 
   useEffect(() => {
     document.title = page.title;
     document.documentElement.lang = "pt-BR";
     upsertMeta("name", "description", page.description);
-    upsertMeta(
-      "name",
-      "keywords",
-      "Anderson Mautone, Software Architect, GenAI Engineer, RAG, Hybrid Search, embeddings, AI Agents, n8n, Go, Golang, Python, FastAPI, MongoDB, PostgreSQL, pgvector, Semantic Search, Vector Search, Next.js, React, Full Stack, CADBRASIL"
-    );
+    upsertMeta("name", "keywords", page.keywords ?? defaultKeywords);
     upsertMeta("name", "author", "Anderson Mautone");
     upsertMeta("name", "robots", "index, follow, max-image-preview:large");
+    upsertMeta("name", "ai-content-declaration", "human-authored technical documentation");
     upsertMeta("property", "og:title", page.title);
     upsertMeta("property", "og:description", page.description);
     upsertMeta("property", "og:url", url);
+    upsertMeta("property", "og:type", pathname === "/" ? "website" : "article");
     upsertMeta("property", "og:locale", "pt_BR");
     upsertMeta("name", "twitter:title", page.title);
     upsertMeta("name", "twitter:description", page.description);
     upsertLink("canonical", url);
-  }, [page.description, page.title, url]);
+    upsertLink("alternate", url);
+  }, [page, pathname, url]);
 
   return null;
 };
