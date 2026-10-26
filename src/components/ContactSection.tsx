@@ -32,7 +32,17 @@ const ContactSection = () => {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
+      const raw = await response.text();
+      let data: { success?: boolean; message?: string } = {};
+      try {
+        data = raw ? JSON.parse(raw) : {};
+      } catch {
+        throw new Error(
+          response.status === 404
+            ? "Serviço de e-mail indisponível (API não encontrada)."
+            : "Resposta inválida do servidor de e-mail."
+        );
+      }
 
       if (response.ok && data.success) {
         toast({
