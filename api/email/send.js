@@ -109,26 +109,27 @@ function envDiagnostics() {
 }
 
 async function postToMailgun(baseUrl, { apiKey, domain, from, to, subject, html, text, replyTo }) {
-  const body = new URLSearchParams();
-  body.set("from", from);
-  body.set("to", to);
-  body.set("subject", subject);
-  body.set("html", html);
-  body.set("text", text);
-  if (replyTo) body.set("h:Reply-To", replyTo);
+  const params = new URLSearchParams();
+  params.append("from", from);
+  params.append("to", to);
+  params.append("subject", subject);
+  params.append("html", html);
+  params.append("text", text);
+  if (replyTo) params.append("h:Reply-To", replyTo);
 
   const auth = Buffer.from(`api:${apiKey}`).toString("base64");
-  const response = await fetch(`${baseUrl}/v3/${domain}/messages`, {
+  const response = await fetch(`${baseUrl}/v3/${encodeURIComponent(domain)}/messages`, {
     method: "POST",
     headers: {
       Authorization: `Basic ${auth}`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body,
+    // Importante no Node/Vercel: string explícita evita "Invalid JSON" do Mailgun
+    body: params.toString(),
   });
 
   const raw = await response.text();
-  return { ok: response.ok, status: response.status, raw };
+  return { ok: response.ok, status: response.status, raw, endpoint: baseUrl };
 }
 
 async function sendMailgun({ to, subject, html, text, replyTo, from }) {
@@ -162,7 +163,7 @@ async function sendMailgun({ to, subject, html, text, replyTo, from }) {
 
   if (!result.ok) {
     const err = new Error(
-      `Mailgun ${result.status}: ${result.raw || "falha ao enviar"}`
+      `Mailgun ${result.status} via ${result.endpoint}: ${result.raw || "falha ao enviar"}`
     );
     err.code =
       result.status === 401 || result.status === 403
