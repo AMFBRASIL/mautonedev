@@ -95,18 +95,20 @@ Atenciosamente,<br><strong>Anderson Mautone</strong><br>
 </body></html>`;
 }
 
-async function sendMailgun({ to, subject, html, text, replyTo, from }) {
-  const apiKey = process.env.MAILGUN_API_KEY;
-  const domain = process.env.MAILGUN_DOMAIN;
-  const baseUrl = (process.env.MAILGUN_URL || "https://api.mailgun.net").replace(
-    /\/$/,
-    ""
-  );
+function envDiagnostics() {
+  return {
+    hasApiKey: Boolean(process.env.MAILGUN_API_KEY?.trim()),
+    hasDomain: Boolean(process.env.MAILGUN_DOMAIN?.trim()),
+    hasFrom: Boolean(process.env.MAILGUN_FROM_EMAIL?.trim()),
+    hasContact: Boolean(
+      process.env.CONTACT_EMAIL?.trim() || process.env.MAILGUN_TO_EMAIL?.trim()
+    ),
+    domain: process.env.MAILGUN_DOMAIN || null,
+    mailgunUrl: process.env.MAILGUN_URL || "https://api.mailgun.net",
+  };
+}
 
-  if (!apiKey || !domain) {
-    throw new Error("MAILGUN_API_KEY e MAILGUN_DOMAIN são obrigatórios no Vercel");
-  }
-
+async function postToMailgun(baseUrl, { apiKey, domain, from, to, subject, html, text, replyTo }) {
   const body = new URLSearchParams();
   body.set("from", from);
   body.set("to", to);
@@ -126,10 +128,51 @@ async function sendMailgun({ to, subject, html, text, replyTo, from }) {
   });
 
   const raw = await response.text();
-  if (!response.ok) {
-    throw new Error(`Mailgun ${response.status}: ${raw || response.statusText}`);
+  return { ok: response.ok, status: response.status, raw };
+}
+
+async function sendMailgun({ to, subject, html, text, replyTo, from }) {
+  const apiKey = process.env.MAILGUN_API_KEY?.trim();
+  const domain = process.env.MAILGUN_DOMAIN?.trim();
+
+  if (!apiKey || !domain) {
+    const err = new Error(
+      "MAILGUN_API_KEY e MAILGUN_DOMAIN são obrigatórios nas Environment Variables do Vercel"
+    );
+    err.code = "MISSING_ENV";
+    throw err;
   }
-  return raw;
+
+  const preferred = (process.env.MAILGUN_URL || "https://api.mailgun.net").replace(
+    /\/$/,
+    ""
+  );
+  const fallback =
+    preferred.includes("api.eu.mailgun.net")
+      ? "https://api.mailgun.net"
+      : "https://api.eu.mailgun.net";
+
+  const payload = { apiKey, domain, from, to, subject, html, text, replyTo };
+  let result = await postToMailgun(preferred, payload);
+
+  // Conta na região errada costuma retornar 401/404 — tenta a outra automaticamente
+  if (!result.ok && (result.status === 401 || result.status === 404)) {
+    result = await postToMailgun(fallback, payload);
+  }
+
+  if (!result.ok) {
+    const err = new Error(
+      `Mailgun ${result.status}: ${result.raw || "falha ao enviar"}`
+    );
+    err.code =
+      result.status === 401 || result.status === 403
+        ? "MAILGUN_AUTH"
+        : "MAILGUN_ERROR";
+    err.status = result.status;
+    throw err;
+  }
+
+  return result.raw;
 }
 
 export default async function handler(req, res) {
@@ -199,10 +242,20 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error("Contact email error:", error);
+    const code = error?.code || "UNKNOWN";
+    const message =
+      code === "MISSING_ENV"
+        ? "Configuração de e-mail incompleta no servidor (variáveis Mailgun)."
+        : code === "MAILGUN_AUTH"
+          ? "Mailgun recusou a autenticação. Verifique a Private API Key e o domínio no Vercel."
+          : "Erro ao enviar email. Tente novamente mais tarde.";
+
     return res.status(500).json({
       success: false,
-      message: "Erro ao enviar email. Tente novamente mais tarde.",
-      details: process.env.NODE_ENV === "production" ? undefined : String(error?.message || error),
+      message,
+      code,
+      env: envDiagnostics(),
+      mailgun: error?.message ? String(error.message).slice(0, 300) : undefined,
     });
   }
 }
