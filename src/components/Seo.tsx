@@ -21,6 +21,12 @@ const pages: Record<
       "Currículo de Anderson Mautone: Software Architect, GenAI Engineer, RAG, Hybrid Search, n8n, AI Agents, Go, Python, PostgreSQL/pgvector e Full Stack.",
     path: "/curriculo",
   },
+  "/contato/enviado": {
+    title: "Mensagem enviada | Express Dev",
+    description:
+      "Recebemos seu contato. A Express Dev retorna em até 24 horas úteis com a próxima etapa da proposta.",
+    path: "/contato/enviado",
+  },
   [knowledgeHub.path]: {
     title: knowledgeHub.title,
     description: knowledgeHub.description,

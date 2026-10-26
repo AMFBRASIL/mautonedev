@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Mail, Linkedin, Send, MapPin, Phone, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -10,6 +11,7 @@ const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? "" : "ht
 const ContactSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const navigate = useNavigate();
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
@@ -45,15 +47,14 @@ const ContactSection = () => {
       }
 
       if (response.ok && data.success) {
-        toast({
-          title: "Mensagem enviada!",
-          description:
-            "Recebemos seu contato. Você também receberá um e-mail de confirmação.",
+        navigate("/contato/enviado", {
+          replace: true,
+          state: { name: formData.name, email: formData.email },
         });
-        setFormData({ name: "", email: "", subject: "", message: "" });
-      } else {
-        throw new Error(data.message || "Erro ao enviar mensagem");
+        return;
       }
+
+      throw new Error(data.message || "Erro ao enviar mensagem");
     } catch (error) {
       console.error("Error:", error);
       toast({
