@@ -7,9 +7,9 @@ const personJsonLd = {
       name: "Anderson Mautone",
       url: "https://mautone.com.br/",
       image: "https://mautone.com.br/profile.jpg",
-      jobTitle: "Senior Software Architect | AI & GenAI Engineer | Senior Full Stack Developer",
+      jobTitle: "Senior Software Architect | AI & GenAI Engineer | Founder, Express Dev",
       description:
-        "Arquiteto de software e engenheiro de GenAI com 28 anos de experiência. Especialista em RAG, Hybrid Search, embeddings, AI Agents, n8n, Go, Python, MongoDB e integração de IA em sistemas corporativos.",
+        "Fundador da Express Dev. Arquiteto de software e engenheiro de GenAI com 28 anos de experiência. Especialista em RAG, Hybrid Search, embeddings, AI Agents, n8n, Go, Python, MongoDB e integração de IA em sistemas corporativos.",
       email: "mailto:contato@mautone.com.br",
       telephone: "+55-11-98440-1158",
       address: {
@@ -44,10 +44,11 @@ const personJsonLd = {
     {
       "@type": "ProfessionalService",
       "@id": "https://mautone.com.br/#service",
-      name: "Anderson Mautone — Arquitetura de Software e GenAI",
+      name: "Express Dev — Desenvolvimento de Software e GenAI",
       url: "https://mautone.com.br/",
       areaServed: "BR",
       serviceType: [
+        "Custom Software Development",
         "Software Architecture",
         "Generative AI",
         "RAG platforms",
@@ -56,12 +57,13 @@ const personJsonLd = {
         "Full Stack Development",
       ],
       provider: { "@id": "https://mautone.com.br/#person" },
+      brand: { "@type": "Brand", name: "Express Dev" },
     },
     {
       "@type": "WebSite",
       "@id": "https://mautone.com.br/#website",
       url: "https://mautone.com.br/",
-      name: "Anderson Mautone",
+      name: "Express Dev",
       inLanguage: "pt-BR",
       publisher: { "@id": "https://mautone.com.br/#person" },
     },

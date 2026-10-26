@@ -1,11 +1,11 @@
 {
-  "name": "Anderson Mautone",
-  "short_name": "Mautone",
-  "description": "Software Architect, GenAI Engineer e Full Stack Developer",
+  "name": "Express Dev",
+  "short_name": "Express Dev",
+  "description": "Desenvolvimento de software e GenAI para empresas",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0b1220",
-  "theme_color": "#0b1220",
+  "background_color": "#0B1220",
+  "theme_color": "#0891B2",
   "icons": [
     {
       "src": "/favicon.svg",

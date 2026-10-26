@@ -11,478 +11,215 @@ interface ContactEmailData {
 class EmailService {
   private mailgun: Mailgun;
   private mg: any;
-  private initialized: boolean = false;
+  private initialized = false;
 
   constructor() {
-    // Inicializar Mailgun
     this.mailgun = new Mailgun(formData);
   }
 
   private initializeClient() {
-    if (this.initialized && this.mg) {
-      return;
-    }
+    if (this.initialized && this.mg) return;
 
     const apiKey = process.env.MAILGUN_API_KEY;
-    
-    if (!apiKey || apiKey.trim() === "") {
+    if (!apiKey?.trim()) {
       throw new Error(
-        'MAILGUN_API_KEY is required. Please set it in your .env file.\n' +
-        'Example: MAILGUN_API_KEY=key-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+        "MAILGUN_API_KEY is required. Please set it in backend/.env"
       );
     }
 
-    // Criar cliente do Mailgun
+    // Região: US (padrão) ou EU — https://api.eu.mailgun.net
+    const url = process.env.MAILGUN_URL?.trim() || undefined;
+
     this.mg = this.mailgun.client({
       username: "api",
-      key: apiKey,
+      key: apiKey.trim(),
+      ...(url ? { url } : {}),
     });
-
     this.initialized = true;
   }
 
   private escapeHtml(text: string): string {
-    const map: { [key: string]: string } = {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#039;',
-    };
-    return text.replace(/[&<>"']/g, (m) => map[m]);
+    return text.replace(/[&<>"']/g, (m) => {
+      const map: Record<string, string> = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
+      };
+      return map[m];
+    });
   }
 
   private formatMessage(message: string): string {
-    // Escapar HTML e converter quebras de linha
     return this.escapeHtml(message).replace(/\n/g, "<br>");
   }
 
+  /** Cópia para a Express Dev (promautone@gmail.com) */
   private getNotificationTemplate(data: ContactEmailData): string {
     const { name, email, subject, message } = data;
     const formattedMessage = this.formatMessage(message);
-    
-    return `
-      <!DOCTYPE html>
-      <html lang="pt-BR">
-        <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <style>
-            * {
-              margin: 0;
-              padding: 0;
-              box-sizing: border-box;
-            }
-            body {
-              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-              line-height: 1.6;
-              color: #1f2937;
-              background-color: #f3f4f6;
-              padding: 20px;
-            }
-            .email-container {
-              max-width: 600px;
-              margin: 0 auto;
-              background: #ffffff;
-              border-radius: 12px;
-              overflow: hidden;
-              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }
-            .header {
-              background: linear-gradient(135deg, #0ea5e9 0%, #a855f7 100%);
-              color: white;
-              padding: 40px 30px;
-              text-align: center;
-            }
-            .header h1 {
-              font-size: 28px;
-              font-weight: 700;
-              margin-bottom: 8px;
-            }
-            .header p {
-              font-size: 16px;
-              opacity: 0.95;
-            }
-            .content {
-              padding: 40px 30px;
-            }
-            .badge {
-              display: inline-block;
-              background: linear-gradient(135deg, #0ea5e9 0%, #a855f7 100%);
-              color: white;
-              padding: 6px 16px;
-              border-radius: 20px;
-              font-size: 12px;
-              font-weight: 600;
-              text-transform: uppercase;
-              letter-spacing: 0.5px;
-              margin-bottom: 30px;
-            }
-            .info-card {
-              background: #f9fafb;
-              border-left: 4px solid #0ea5e9;
-              padding: 20px;
-              border-radius: 8px;
-              margin-bottom: 25px;
-            }
-            .info-row {
-              display: flex;
-              align-items: center;
-              margin-bottom: 12px;
-            }
-            .info-row:last-child {
-              margin-bottom: 0;
-            }
-            .info-label {
-              font-weight: 600;
-              color: #6b7280;
-              min-width: 80px;
-              font-size: 14px;
-            }
-            .info-value {
-              color: #1f2937;
-              font-size: 15px;
-            }
-            .info-value a {
-              color: #0ea5e9;
-              text-decoration: none;
-            }
-            .info-value a:hover {
-              text-decoration: underline;
-            }
-            .message-box {
-              background: #f9fafb;
-              border: 2px solid #e5e7eb;
-              border-radius: 8px;
-              padding: 24px;
-              margin-top: 25px;
-            }
-            .message-box h3 {
-              color: #1f2937;
-              font-size: 18px;
-              font-weight: 600;
-              margin-bottom: 16px;
-              display: flex;
-              align-items: center;
-            }
-            .message-box p {
-              color: #4b5563;
-              font-size: 15px;
-              line-height: 1.8;
-              white-space: pre-wrap;
-            }
-            .action-button {
-              display: inline-block;
-              margin-top: 30px;
-              padding: 14px 32px;
-              background: linear-gradient(135deg, #0ea5e9 0%, #a855f7 100%);
-              color: white;
-              text-decoration: none;
-              border-radius: 8px;
-              font-weight: 600;
-              font-size: 15px;
-            }
-            .footer {
-              background: #1f2937;
-              color: #9ca3af;
-              padding: 30px;
-              text-align: center;
-              font-size: 13px;
-            }
-            .footer p {
-              margin-bottom: 8px;
-            }
-            .footer a {
-              color: #0ea5e9;
-              text-decoration: none;
-            }
-            @media only screen and (max-width: 600px) {
-              .header {
-                padding: 30px 20px;
-              }
-              .content {
-                padding: 30px 20px;
-              }
-              .info-row {
-                flex-direction: column;
-                align-items: flex-start;
-              }
-              .info-label {
-                margin-bottom: 4px;
-              }
-            }
-          </style>
-        </head>
-        <body>
-          <div class="email-container">
-            <div class="header">
-              <h1>💼 Nova Mensagem Recebida</h1>
-              <p>Você recebeu uma nova mensagem através do seu portfólio</p>
-            </div>
-            <div class="content">
-              <span class="badge">Novo Contato</span>
-              
-              <div class="info-card">
-                <div class="info-row">
-                  <span class="info-label">👤 Nome:</span>
-                  <span class="info-value">${this.escapeHtml(name)}</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">📧 Email:</span>
-                  <span class="info-value"><a href="mailto:${email}">${this.escapeHtml(email)}</a></span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">📌 Assunto:</span>
-                  <span class="info-value">${this.escapeHtml(subject)}</span>
-                </div>
+    const safeName = this.escapeHtml(name);
+    const safeEmail = this.escapeHtml(email);
+    const safeSubject = this.escapeHtml(subject);
+    const replySubject = encodeURIComponent(`Re: ${subject}`);
+
+    return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Novo contato — Express Dev</title>
+</head>
+<body style="margin:0;padding:0;background:#0B1220;font-family:Arial,Helvetica,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0B1220;padding:32px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#111827;border-radius:16px;overflow:hidden;border:1px solid #1f2937;">
+          <tr>
+            <td style="background:linear-gradient(135deg,#0891B2 0%,#F97316 100%);padding:32px 28px;text-align:center;">
+              <p style="margin:0 0 8px;color:#fff;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:700;">Express Dev</p>
+              <h1 style="margin:0;color:#fff;font-size:26px;line-height:1.3;">Novo contato do site</h1>
+              <p style="margin:10px 0 0;color:rgba(255,255,255,0.9);font-size:15px;">Proposta / solicitação via mautone.com.br</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:32px 28px;">
+              <p style="margin:0 0 20px;display:inline-block;background:rgba(8,145,178,0.2);color:#22D3EE;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">Lead comercial</p>
+
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0B1220;border-radius:12px;border:1px solid #1f2937;margin-bottom:24px;">
+                <tr>
+                  <td style="padding:20px 22px;">
+                    <p style="margin:0 0 12px;color:#9CA3AF;font-size:13px;"><strong style="color:#E5E7EB;">Nome:</strong> ${safeName}</p>
+                    <p style="margin:0 0 12px;color:#9CA3AF;font-size:13px;"><strong style="color:#E5E7EB;">E-mail:</strong> <a href="mailto:${safeEmail}" style="color:#22D3EE;text-decoration:none;">${safeEmail}</a></p>
+                    <p style="margin:0;color:#9CA3AF;font-size:13px;"><strong style="color:#E5E7EB;">Assunto:</strong> ${safeSubject}</p>
+                  </td>
+                </tr>
+              </table>
+
+              <h2 style="margin:0 0 12px;color:#F9FAFB;font-size:16px;">Mensagem</h2>
+              <div style="background:#0B1220;border-left:4px solid #F97316;border-radius:0 12px 12px 0;padding:18px 20px;color:#D1D5DB;font-size:15px;line-height:1.7;">
+                ${formattedMessage}
               </div>
 
-              <div class="message-box">
-                <h3>💬 Mensagem:</h3>
-                <p>${formattedMessage}</p>
-              </div>
-
-              <a href="mailto:${email}?subject=Re: ${subject}" class="action-button">
-                Responder Mensagem
-              </a>
-            </div>
-            <div class="footer">
-              <p><strong>Anderson Mautone</strong> - Desenvolvedor de Software</p>
-              <p>Esta mensagem foi enviada através do formulário de contato do portfólio</p>
-              <p style="margin-top: 16px;">
-                <a href="https://mautone.com.br">mautone.com.br</a>
+              <p style="margin:28px 0 0;text-align:center;">
+                <a href="mailto:${safeEmail}?subject=${replySubject}" style="display:inline-block;background:#F97316;color:#ffffff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 28px;border-radius:8px;">Responder ao cliente</a>
               </p>
-            </div>
-          </div>
-        </body>
-      </html>
-    `;
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:20px 28px 28px;border-top:1px solid #1f2937;text-align:center;">
+              <p style="margin:0;color:#6B7280;font-size:12px;">Express Dev · Anderson Mautone</p>
+              <p style="margin:6px 0 0;"><a href="https://mautone.com.br" style="color:#22D3EE;font-size:12px;text-decoration:none;">mautone.com.br</a></p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
   }
 
+  /** Cópia de confirmação para o cliente */
   private getConfirmationTemplate(data: ContactEmailData): string {
-    const { name, subject } = data;
-    const escapedName = this.escapeHtml(name);
-    const escapedSubject = this.escapeHtml(subject);
-    
-    return `
-      <!DOCTYPE html>
-      <html lang="pt-BR">
-        <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <style>
-            * {
-              margin: 0;
-              padding: 0;
-              box-sizing: border-box;
-            }
-            body {
-              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-              line-height: 1.6;
-              color: #1f2937;
-              background-color: #f3f4f6;
-              padding: 20px;
-            }
-            .email-container {
-              max-width: 600px;
-              margin: 0 auto;
-              background: #ffffff;
-              border-radius: 12px;
-              overflow: hidden;
-              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }
-            .header {
-              background: linear-gradient(135deg, #0ea5e9 0%, #a855f7 100%);
-              color: white;
-              padding: 50px 30px;
-              text-align: center;
-            }
-            .header-icon {
-              font-size: 64px;
-              margin-bottom: 20px;
-            }
-            .header h1 {
-              font-size: 28px;
-              font-weight: 700;
-              margin-bottom: 12px;
-            }
-            .header p {
-              font-size: 16px;
-              opacity: 0.95;
-            }
-            .content {
-              padding: 40px 30px;
-            }
-            .greeting {
-              font-size: 18px;
-              color: #1f2937;
-              margin-bottom: 20px;
-              font-weight: 500;
-            }
-            .message {
-              color: #4b5563;
-              font-size: 15px;
-              line-height: 1.8;
-              margin-bottom: 30px;
-            }
-            .highlight-box {
-              background: linear-gradient(135deg, #f0f9ff 0%, #faf5ff 100%);
-              border-left: 4px solid #0ea5e9;
-              padding: 20px;
-              border-radius: 8px;
-              margin: 30px 0;
-            }
-            .highlight-box p {
-              color: #1f2937;
-              font-size: 15px;
-              margin: 0;
-            }
-            .info-section {
-              background: #f9fafb;
-              padding: 24px;
-              border-radius: 8px;
-              margin: 30px 0;
-            }
-            .info-section h3 {
-              color: #1f2937;
-              font-size: 16px;
-              font-weight: 600;
-              margin-bottom: 16px;
-            }
-            .info-section ul {
-              list-style: none;
-              padding: 0;
-            }
-            .info-section li {
-              color: #4b5563;
-              font-size: 14px;
-              margin-bottom: 10px;
-              padding-left: 24px;
-              position: relative;
-            }
-            .info-section li:before {
-              content: "✓";
-              position: absolute;
-              left: 0;
-              color: #0ea5e9;
-              font-weight: bold;
-            }
-            .footer {
-              background: #1f2937;
-              color: #9ca3af;
-              padding: 30px;
-              text-align: center;
-              font-size: 13px;
-            }
-            .footer p {
-              margin-bottom: 8px;
-            }
-            .footer a {
-              color: #0ea5e9;
-              text-decoration: none;
-            }
-            .social-links {
-              margin-top: 20px;
-            }
-            .social-links a {
-              color: #0ea5e9;
-              margin: 0 10px;
-              text-decoration: none;
-            }
-            @media only screen and (max-width: 600px) {
-              .header {
-                padding: 40px 20px;
-              }
-              .content {
-                padding: 30px 20px;
-              }
-            }
-          </style>
-        </head>
-        <body>
-          <div class="email-container">
-            <div class="header">
-              <div class="header-icon">✅</div>
-              <h1>Mensagem Recebida!</h1>
-              <p>Obrigado por entrar em contato</p>
-            </div>
-            <div class="content">
-              <p class="greeting">Olá ${escapedName},</p>
-              
-              <p class="message">
-                Recebi sua mensagem sobre <strong>"${escapedSubject}"</strong> e agradeço muito pelo seu interesse em trabalhar comigo!
+    const { name, subject, message } = data;
+    const safeName = this.escapeHtml(name);
+    const safeSubject = this.escapeHtml(subject);
+    const formattedMessage = this.formatMessage(message);
+
+    return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recebemos sua mensagem — Express Dev</title>
+</head>
+<body style="margin:0;padding:0;background:#F3F4F6;font-family:Arial,Helvetica,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F3F4F6;padding:32px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 8px 30px rgba(15,23,42,0.08);">
+          <tr>
+            <td style="background:linear-gradient(135deg,#0891B2 0%,#0E7490 55%,#F97316 100%);padding:36px 28px;text-align:center;">
+              <p style="margin:0 0 8px;color:#fff;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:700;">Express Dev</p>
+              <h1 style="margin:0;color:#fff;font-size:26px;line-height:1.3;">Recebemos sua mensagem</h1>
+              <p style="margin:10px 0 0;color:rgba(255,255,255,0.92);font-size:15px;">Obrigado por falar com a gente</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:36px 28px;">
+              <p style="margin:0 0 16px;color:#111827;font-size:17px;font-weight:600;">Olá, ${safeName}!</p>
+              <p style="margin:0 0 18px;color:#4B5563;font-size:15px;line-height:1.75;">
+                Sua solicitação sobre <strong style="color:#0E7490;">“${safeSubject}”</strong> chegou com sucesso à
+                <strong>Express Dev</strong>. Em breve nossa equipe analisa o pedido e retorna com os próximos passos.
               </p>
 
-              <div class="highlight-box">
-                <p>
-                  <strong>📧 Sua mensagem foi enviada com sucesso!</strong><br>
-                  Vou analisar sua solicitação e retornarei em breve através do email fornecido.
-                </p>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#ECFEFF;border-radius:12px;border:1px solid #A5F3FC;margin:0 0 24px;">
+                <tr>
+                  <td style="padding:18px 20px;">
+                    <p style="margin:0;color:#0F766E;font-size:14px;line-height:1.6;">
+                      <strong>O que acontece agora?</strong><br>
+                      Retorno em até 24 horas úteis · análise do escopo · proposta objetiva para o seu negócio.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <h2 style="margin:0 0 10px;color:#111827;font-size:15px;">Resumo do que você enviou</h2>
+              <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:12px;padding:18px 20px;color:#4B5563;font-size:14px;line-height:1.7;margin-bottom:24px;">
+                ${formattedMessage}
               </div>
 
-              <div class="info-section">
-                <h3>O que você pode esperar:</h3>
-                <ul>
-                  <li>Resposta em até 24 horas úteis</li>
-                  <li>Análise detalhada do seu projeto</li>
-                  <li>Proposta personalizada para suas necessidades</li>
-                  <li>Suporte durante todo o processo</li>
-                </ul>
-              </div>
-
-              <p class="message">
-                Enquanto isso, sinta-se à vontade para explorar mais sobre meu trabalho e projetos em 
-                <a href="https://mautone.com.br" style="color: #0ea5e9; text-decoration: none;">mautone.com.br</a>
+              <p style="margin:0 0 8px;color:#4B5563;font-size:15px;line-height:1.7;">
+                Enquanto isso, você pode conhecer nossos serviços e cases em
+                <a href="https://mautone.com.br" style="color:#0891B2;text-decoration:none;font-weight:600;">mautone.com.br</a>.
               </p>
 
-              <p class="message" style="margin-top: 30px;">
+              <p style="margin:28px 0 0;color:#111827;font-size:15px;line-height:1.6;">
                 Atenciosamente,<br>
-                <strong style="color: #1f2937;">Anderson Mautone</strong><br>
-                <span style="color: #6b7280; font-size: 14px;">Desenvolvedor de Software</span>
+                <strong>Anderson Mautone</strong><br>
+                <span style="color:#6B7280;font-size:13px;">Express Dev · Software &amp; GenAI</span>
               </p>
-            </div>
-            <div class="footer">
-              <p><strong>Anderson Mautone</strong></p>
-              <p>Desenvolvedor Avançado de Softwares Web</p>
-              <p style="margin-top: 16px;">
-                <a href="https://mautone.com.br">mautone.com.br</a> | 
-                <a href="mailto:contato@mautone.com.br">contato@mautone.com.br</a>
+            </td>
+          </tr>
+          <tr>
+            <td style="background:#111827;padding:22px 28px;text-align:center;">
+              <p style="margin:0 0 6px;color:#F9FAFB;font-size:13px;font-weight:700;">Express Dev</p>
+              <p style="margin:0;color:#9CA3AF;font-size:12px;">
+                <a href="mailto:contato@mautone.com.br" style="color:#22D3EE;text-decoration:none;">contato@mautone.com.br</a>
+                ·
+                <a href="https://mautone.com.br" style="color:#22D3EE;text-decoration:none;">mautone.com.br</a>
               </p>
-            </div>
-          </div>
-        </body>
-      </html>
-    `;
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
   }
 
   async sendContactEmail(data: ContactEmailData): Promise<void> {
-    // Inicializar cliente se ainda não foi inicializado
     this.initializeClient();
 
     const { name, email, subject, message } = data;
-
     const domain = process.env.MAILGUN_DOMAIN;
-    const fromEmail = process.env.MAILGUN_FROM_EMAIL || `noreply@${domain}`;
+    const fromEmail = process.env.MAILGUN_FROM_EMAIL || `contato@${domain}`;
     const toEmail = process.env.CONTACT_EMAIL || process.env.MAILGUN_TO_EMAIL;
 
-    if (!domain || domain.trim() === "") {
-      throw new Error(
-        'MAILGUN_DOMAIN is required. Please set it in your .env file.\n' +
-        'Example: MAILGUN_DOMAIN=sandbox1234567890abcdef.mailgun.org'
-      );
+    if (!domain?.trim()) {
+      throw new Error("MAILGUN_DOMAIN is required in backend/.env");
+    }
+    if (!toEmail?.trim()) {
+      throw new Error("CONTACT_EMAIL is required in backend/.env");
     }
 
-    if (!toEmail || toEmail.trim() === "") {
-      throw new Error(
-        'CONTACT_EMAIL or MAILGUN_TO_EMAIL is required. Please set it in your .env file.\n' +
-        'Example: CONTACT_EMAIL=contato@andersonmautone.com.br'
-      );
-    }
-
-    // Template de notificação para o dono do site
     const notificationHtml = this.getNotificationTemplate(data);
-    const notificationText = `
-Nova Mensagem do Portfólio
+    const confirmationHtml = this.getConfirmationTemplate(data);
+
+    const notificationText = `Novo contato — Express Dev
 
 Nome: ${name}
 Email: ${email}
@@ -490,55 +227,39 @@ Assunto: ${subject}
 
 Mensagem:
 ${message}
-    `;
+`;
 
-    // Template de confirmação para o cliente
-    const confirmationHtml = this.getConfirmationTemplate(data);
-    const confirmationText = `
-Mensagem Recebida!
+    const confirmationText = `Recebemos sua mensagem — Express Dev
 
 Olá ${name},
 
-Recebi sua mensagem sobre "${subject}" e agradeço muito pelo seu interesse em trabalhar comigo!
-
-Sua mensagem foi enviada com sucesso! Vou analisar sua solicitação e retornarei em breve através do email fornecido.
-
-O que você pode esperar:
-- Resposta em até 24 horas úteis
-- Análise detalhada do seu projeto
-- Proposta personalizada para suas necessidades
-- Suporte durante todo o processo
+Sua solicitação sobre "${subject}" chegou com sucesso à Express Dev.
+Retornaremos em até 24 horas úteis com os próximos passos.
 
 Atenciosamente,
 Anderson Mautone
-Desenvolvedor de Software
+Express Dev · Software & GenAI
+contato@mautone.com.br | mautone.com.br
+`;
 
-mautone.com.br | contato@mautone.com.br
-    `;
-
-    // Enviar email de notificação para o dono do site
-    const notificationData = {
-      from: `"${name}" <${fromEmail}>`,
-      to: [toEmail],
-      subject: `💼 Nova Mensagem: ${subject}`,
-      html: notificationHtml,
-      text: notificationText,
-      "h:Reply-To": email,
-    };
-
-    // Enviar email de confirmação para o cliente
-    const confirmationData = {
-      from: `"Anderson Mautone" <${fromEmail}>`,
-      to: [email],
-      subject: `✅ Mensagem Recebida: ${subject}`,
-      html: confirmationHtml,
-      text: confirmationText,
-    };
-
-    // Enviar ambos os emails
     await Promise.all([
-      this.mg.messages.create(domain, notificationData),
-      this.mg.messages.create(domain, confirmationData),
+      // Cópia para a Express Dev
+      this.mg.messages.create(domain, {
+        from: `"Express Dev Site" <${fromEmail}>`,
+        to: [toEmail],
+        subject: `[Express Dev] Novo contato: ${subject}`,
+        html: notificationHtml,
+        text: notificationText,
+        "h:Reply-To": email,
+      }),
+      // Cópia para o cliente
+      this.mg.messages.create(domain, {
+        from: `"Express Dev" <${fromEmail}>`,
+        to: [email],
+        subject: `Recebemos sua mensagem — ${subject}`,
+        html: confirmationHtml,
+        text: confirmationText,
+      }),
     ]);
   }
 }

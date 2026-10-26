@@ -10,9 +10,9 @@ const pages: Record<
 > = {
   "/": {
     title:
-      "Anderson Mautone | Software Architect, GenAI Engineer e Full Stack",
+      "Express Dev | Desenvolvimento de software e GenAI para empresas",
     description:
-      "Senior Software Architect, AI & GenAI Engineer e Senior Full Stack Developer. RAG, Hybrid Search, embeddings, AI Agents, n8n, Go, Python, MongoDB e integração de IA em sistemas corporativos. 28 anos de experiência.",
+      "Express Dev — desenvolvimento sob medida, arquitetura, APIs, ERP/CRM e GenAI (RAG, Hybrid Search, AI Agents, n8n). Go, Python, React e Full Stack para a sua empresa. Liderado por Anderson Mautone.",
     path: "/",
   },
   "/curriculo": {
@@ -30,7 +30,7 @@ const pages: Record<
 };
 
 const defaultKeywords =
-  "Anderson Mautone, Software Architect, GenAI Engineer, RAG, Hybrid Search, embeddings, AI Agents, n8n, Go, Golang, Python, FastAPI, MongoDB, PostgreSQL, pgvector, Semantic Search, Vector Search, Next.js, React, Full Stack, CADBRASIL";
+  "Express Dev, desenvolvimento de software, GenAI, RAG, Hybrid Search, AI Agents, n8n, Go, Golang, Python, FastAPI, React, Next.js, ERP, CRM, Anderson Mautone, software para empresas";
 
 function resolvePage(pathname: string) {
   if (pages[pathname]) return pages[pathname];

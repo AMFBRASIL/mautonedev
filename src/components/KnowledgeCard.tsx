@@ -34,13 +34,10 @@ export function KnowledgeCard({ article }: { article: KnowledgeArticle }) {
   return (
     <Link
       to={`/conhecimentos/${article.slug}`}
-      className="glass rounded-xl p-6 group hover:border-primary/50 transition-all duration-300 block h-full"
+      className="surface-card rounded-xl p-6 group hover:border-primary/30 transition-all duration-300 block h-full"
     >
-      <div
-        className="w-12 h-12 rounded-lg flex items-center justify-center mb-4"
-        style={{ background: "var(--gradient-primary)" }}
-      >
-        <KnowledgeIcon name={article.icon} className="w-6 h-6 text-primary-foreground" />
+      <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-secondary text-primary">
+        <KnowledgeIcon name={article.icon} className="w-5 h-5" />
       </div>
       <h3 className="text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
         {article.title}

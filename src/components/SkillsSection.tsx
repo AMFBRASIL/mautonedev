@@ -1,153 +1,110 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
-const skillGroups = [
+const groups = [
   {
-    title: "Inteligência Artificial & GenAI",
-    accent: "bg-primary",
+    title: "Inteligência Artificial",
     items: [
-      { name: "RAG / Retrieval Augmented Generation", level: 95 },
-      { name: "Hybrid Search & Semantic Search", level: 94 },
-      { name: "Embeddings & Vector Search", level: 93 },
-      { name: "AI Agents / Tool Calling", level: 90 },
-      { name: "n8n & AI Automation", level: 92 },
-      { name: "LLM Integration (OpenAI, Gemini, Claude)", level: 92 },
+      "RAG",
+      "Hybrid Search",
+      "Semantic Search",
+      "Embeddings",
+      "AI Agents",
+      "n8n",
+      "LLMs (OpenAI, Gemini, Claude)",
+      "pgvector",
     ],
   },
   {
-    title: "Linguagens & Backend",
-    accent: "bg-accent",
+    title: "Backend & APIs",
     items: [
-      { name: "Python / FastAPI", level: 94 },
-      { name: "Go / Golang", level: 90 },
-      { name: "Node.js / TypeScript", level: 95 },
-      { name: "React / Next.js", level: 95 },
-      { name: "MongoDB", level: 90 },
-      { name: "PostgreSQL / pgvector", level: 93 },
+      "Go / Golang",
+      "Python / FastAPI",
+      "Node.js",
+      "TypeScript",
+      "PHP / Laravel",
+      "REST APIs",
+      "Microservices",
+      "Webhooks",
+    ],
+  },
+  {
+    title: "Frontend & Produto",
+    items: [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "JavaScript",
+      "TanStack",
+      "HTML5 / CSS3",
+      "Aplicações responsivas",
+    ],
+  },
+  {
+    title: "Dados, Cloud & Ops",
+    items: [
+      "PostgreSQL",
+      "MongoDB",
+      "MySQL / Oracle",
+      "Docker",
+      "Kubernetes / GCP",
+      "CI/CD",
+      "Nginx",
+      "Monitoramento",
     ],
   },
 ];
-
-const extraTags = [
-  "JavaScript",
-  "PHP / Laravel",
-  "REST APIs",
-  "Microservices",
-  "TanStack",
-  "Supabase",
-  "Docker",
-  "Kubernetes",
-  "GCP",
-  "SQL",
-  "Oracle",
-  "MySQL",
-  "ETL",
-  "Power BI",
-  "Software Architecture",
-];
-
-const SkillBar = ({
-  name,
-  level,
-  delay,
-  isInView,
-}: {
-  name: string;
-  level: number;
-  delay: number;
-  isInView: boolean;
-}) => (
-  <motion.div
-    initial={{ opacity: 0, x: -20 }}
-    animate={isInView ? { opacity: 1, x: 0 } : {}}
-    transition={{ duration: 0.5, delay }}
-    className="mb-4"
-  >
-    <div className="flex justify-between mb-2">
-      <span className="text-sm font-medium text-foreground">{name}</span>
-      <span className="text-sm text-muted-foreground">{level}%</span>
-    </div>
-    <div className="h-2 bg-secondary rounded-full overflow-hidden">
-      <motion.div
-        initial={{ width: 0 }}
-        animate={isInView ? { width: `${level}%` } : {}}
-        transition={{ duration: 1, delay: delay + 0.2, ease: "easeOut" }}
-        className="h-full rounded-full"
-        style={{ background: "var(--gradient-primary)" }}
-      />
-    </div>
-  </motion.div>
-);
 
 const SkillsSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="skills" className="py-24 relative" ref={ref}>
-      <div className="container mx-auto px-4 relative z-10">
+    <section id="stacks" className="py-24 relative" ref={ref}>
+      <div className="container mx-auto px-4">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 28 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.55 }}
+          className="max-w-2xl mb-12"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            <span className="gradient-text">Skills</span> & Tecnologias
+          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary mb-3">
+            Stack
+          </p>
+          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
+            Tecnologias que usamos em produção
           </h2>
-          <div
-            className="w-24 h-1 mx-auto rounded-full"
-            style={{ background: "var(--gradient-primary)" }}
-          />
-          <p className="text-muted-foreground mt-6 max-w-2xl mx-auto">
-            Profissional nas linguagens e plataformas usadas em arquitetura
-            corporativa e em produtos de IA: Go, Python, TypeScript, MongoDB e
-            o ecossistema RAG / Hybrid Search.
+          <p className="text-muted-foreground text-lg leading-relaxed">
+            Escolhemos a stack pelo problema — e temos profundidade nas
+            linguagens e plataformas que sua equipe precisa auditar.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {skillGroups.map((group, gIndex) => (
+        <div className="grid md:grid-cols-2 gap-6">
+          {groups.map((group, index) => (
             <motion.div
               key={group.title}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 18 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 + gIndex * 0.15 }}
-              className="glass rounded-2xl p-8"
+              transition={{ duration: 0.4, delay: 0.06 * index }}
+              className="surface-card rounded-xl p-6"
             >
-              <h3 className="text-xl font-bold mb-6 flex items-center gap-3">
-                <span className={`w-3 h-3 rounded-full ${group.accent}`} />
+              <h3 className="font-display text-base font-semibold mb-4">
                 {group.title}
               </h3>
-              {group.items.map((skill, index) => (
-                <SkillBar
-                  key={skill.name}
-                  name={skill.name}
-                  level={skill.level}
-                  delay={0.3 + index * 0.05}
-                  isInView={isInView}
-                />
-              ))}
+              <div className="flex flex-wrap gap-2">
+                {group.items.map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-md bg-secondary px-3 py-1.5 text-sm text-secondary-foreground"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
             </motion.div>
           ))}
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="flex flex-wrap justify-center gap-2 mt-12"
-        >
-          {extraTags.map((tag) => (
-            <span
-              key={tag}
-              className="px-3 py-1.5 text-xs md:text-sm rounded-lg glass text-muted-foreground"
-            >
-              {tag}
-            </span>
-          ))}
-        </motion.div>
       </div>
     </section>
   );

@@ -32,15 +32,12 @@ const KnowledgeHub = () => (
     <Header />
     <main className="pt-32 pb-20">
       <div className="container mx-auto px-4">
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <div
-            className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6"
-            style={{ background: "var(--gradient-primary)" }}
-          >
-            <BookOpen className="w-8 h-8 text-primary-foreground" />
+        <div className="max-w-3xl mb-14">
+          <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-secondary text-primary">
+            <BookOpen className="w-7 h-7" />
           </div>
-          <h1 className="text-3xl md:text-5xl font-bold mb-4">
-            Conhecimentos de <span className="gradient-text">GenAI</span>
+          <h1 className="font-display text-3xl md:text-4xl font-bold mb-4">
+            Conhecimentos de GenAI
           </h1>
           <p className="text-muted-foreground text-lg leading-relaxed">
             {knowledgeHub.description}

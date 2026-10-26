@@ -62,27 +62,15 @@ const AiExpertiseSection = () => {
           transition={{ duration: 0.7 }}
           className="text-center mb-14"
         >
-          <p className="text-sm uppercase tracking-[0.2em] text-primary mb-3">
-            Inteligência Artificial aplicada
+          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary mb-3">
+            Inteligência Artificial
           </p>
-          <h2 id="ia-heading" className="text-3xl md:text-5xl font-bold mb-4">
-            Stack de <span className="gradient-text">GenAI</span> em produção
+          <h2 id="ia-heading" className="font-display text-3xl md:text-4xl font-bold mb-4">
+            GenAI que a empresa consegue operar
           </h2>
-          <div
-            className="w-24 h-1 mx-auto rounded-full"
-            style={{ background: "var(--gradient-primary)" }}
-          />
-          <p className="text-muted-foreground mt-6 max-w-3xl mx-auto leading-relaxed">
-            Profissional em arquitetura e desenvolvimento de soluções com{" "}
-            <strong className="text-foreground">RAG</strong>,{" "}
-            <strong className="text-foreground">Hybrid Search</strong>,{" "}
-            <strong className="text-foreground">embeddings</strong>,{" "}
-            <strong className="text-foreground">AI Agents</strong>,{" "}
-            <strong className="text-foreground">n8n</strong>,{" "}
-            <strong className="text-foreground">Go</strong>,{" "}
-            <strong className="text-foreground">Python</strong> e{" "}
-            <strong className="text-foreground">MongoDB</strong> — da ingestão
-            documental à resposta do modelo, integrada a sistemas reais.
+          <p className="text-muted-foreground mt-4 max-w-3xl mx-auto text-lg leading-relaxed">
+            RAG, Hybrid Search, embeddings, AI Agents, n8n, Go, Python e MongoDB —
+            da ingestão documental à resposta do modelo, integrada aos seus sistemas.
           </p>
         </motion.div>
 
@@ -93,13 +81,10 @@ const AiExpertiseSection = () => {
               initial={{ opacity: 0, y: 24 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.45, delay: 0.08 * index }}
-              className="glass rounded-xl p-6 hover:border-primary/50 transition-all"
+              className="surface-card rounded-xl p-6 hover:border-primary/30 transition-all"
             >
-              <div
-                className="w-12 h-12 rounded-lg flex items-center justify-center mb-4"
-                style={{ background: "var(--gradient-primary)" }}
-              >
-                <div className="text-primary-foreground">{item.icon}</div>
+              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-secondary text-primary">
+                {item.icon}
               </div>
               <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">

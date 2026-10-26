@@ -1,59 +1,53 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { BookOpen } from "lucide-react";
+import { BookOpen, ArrowRight } from "lucide-react";
 import { knowledgeArticles } from "@/data/knowledge";
 import { KnowledgeCard } from "@/components/KnowledgeCard";
 
 const KnowledgeSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const preview = knowledgeArticles.slice(0, 6);
 
   return (
     <section id="conhecimentos" className="py-24 relative" ref={ref}>
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-card/30 to-background" />
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 28 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-14"
+          transition={{ duration: 0.55 }}
+          className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12"
         >
-          <div className="flex justify-center mb-5">
-            <Link
-              to="/conhecimentos"
-              aria-label="Abrir conteúdos de conhecimentos em GenAI"
-              className="w-16 h-16 rounded-2xl flex items-center justify-center glow-primary hover:scale-105 transition-transform"
-              style={{ background: "var(--gradient-primary)" }}
-            >
-              <BookOpen className="w-8 h-8 text-primary-foreground" />
-            </Link>
+          <div className="max-w-2xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary mb-3">
+              Conteúdo técnico
+            </p>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
+              Base de conhecimentos GenAI
+            </h2>
+            <p className="text-muted-foreground text-lg leading-relaxed">
+              Guias para sua equipe entender RAG, busca híbrida, Go em produção
+              e como a Express Dev estrutura IA em projetos grandes.
+            </p>
           </div>
-          <p className="text-sm uppercase tracking-[0.2em] text-primary mb-3">
-            Base de conhecimento
-          </p>
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Conhecimentos de <span className="gradient-text">GenAI</span>
-          </h2>
-          <div
-            className="w-24 h-1 mx-auto rounded-full"
-            style={{ background: "var(--gradient-primary)" }}
-          />
-          <p className="text-muted-foreground mt-6 max-w-2xl mx-auto">
-            Guias sobre RAG, Semantic Search, Hybrid Search, Go, Python, n8n e
-            como aplicar IA em projetos grandes. Toque no ícone ou escolha um
-            tema.
-          </p>
+          <Link
+            to="/conhecimentos"
+            className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-5 py-3 text-sm font-semibold hover:border-primary/40 transition-colors"
+          >
+            <BookOpen className="h-4 w-4 text-primary" />
+            Ver todos os guias
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {knowledgeArticles.map((article, index) => (
+          {preview.map((article, index) => (
             <motion.div
               key={article.slug}
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4, delay: 0.06 * index }}
+              transition={{ duration: 0.4, delay: 0.05 * index }}
             >
               <KnowledgeCard article={article} />
             </motion.div>

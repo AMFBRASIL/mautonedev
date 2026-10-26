@@ -14,8 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        sans: ['Source Sans 3', 'system-ui', 'sans-serif'],
+        display: ['Sora', 'system-ui', 'sans-serif'],
+        mono: ['IBM Plex Mono', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -108,8 +109,8 @@ export default {
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "hero-gradient": "linear-gradient(180deg, hsl(222 47% 8%) 0%, hsl(222 47% 4%) 100%)",
-        "card-gradient": "linear-gradient(145deg, hsl(217 33% 12%) 0%, hsl(222 47% 8%) 100%)",
+        "hero-gradient": "linear-gradient(180deg, hsl(222 47% 8% / 0.55) 0%, hsl(222 47% 6% / 0.85) 100%)",
+        "card-gradient": "linear-gradient(160deg, hsl(222 40% 14%) 0%, hsl(222 40% 10%) 100%)",
       },
     },
   },

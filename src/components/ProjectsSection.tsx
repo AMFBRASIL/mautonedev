@@ -111,23 +111,23 @@ const ProjectsSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="projetos" className="py-24 relative" ref={ref}>
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-card/30 to-background" />
-
+    <section id="projetos" className="py-24 relative bg-secondary/30" ref={ref}>
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 28 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.55 }}
+          className="max-w-2xl mb-12"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Projetos & <span className="gradient-text">Portfólio</span>
+          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary mb-3">
+            Cases
+          </p>
+          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
+            Projetos entregues em produção
           </h2>
-          <div className="w-24 h-1 mx-auto rounded-full" style={{ background: "var(--gradient-primary)" }} />
-          <p className="text-muted-foreground mt-6 max-w-2xl mx-auto">
-            Projetos de GenAI (RAG, Hybrid Search, n8n) e produtos Full Stack
-            entregues em produção.
+          <p className="text-muted-foreground text-lg leading-relaxed">
+            GenAI (RAG, Hybrid Search, n8n), ERP/CRM e produtos digitais para
+            operações reais.
           </p>
         </motion.div>
 
@@ -147,14 +147,14 @@ const ProjectsSection = () => {
               >
                 <CardWrapper
                   {...cardProps}
-                  className="glass rounded-xl p-6 group hover:border-primary/50 transition-all duration-300 cursor-pointer block h-full"
+                  className="surface-card rounded-xl p-6 group hover:border-primary/30 transition-all duration-300 cursor-pointer block h-full"
                 >
                   <div className="flex items-center justify-between mb-4">
                     <Folder className="text-primary w-8 h-8" />
                     <ExternalLink className={`w-5 h-5 transition-colors ${project.url ? 'text-primary' : 'text-muted-foreground group-hover:text-primary'}`} />
                   </div>
 
-                  <span className="text-xs text-accent font-medium uppercase tracking-wider">
+                  <span className="text-xs text-primary font-semibold uppercase tracking-wider">
                     {project.category}
                   </span>
 
@@ -189,21 +189,17 @@ const ProjectsSection = () => {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="text-center"
         >
-          <h3 className="text-xl font-semibold mb-8 text-muted-foreground">
-            Clientes & Empresas Atendidas
+          <h3 className="font-display text-lg font-semibold mb-6 text-foreground">
+            Empresas e operações atendidas
           </h3>
-          <div className="flex flex-wrap justify-center gap-4 md:gap-8">
-            {clients.map((client, index) => (
-              <motion.div
+          <div className="flex flex-wrap gap-3">
+            {clients.map((client) => (
+              <div
                 key={client}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.3, delay: 0.7 + index * 0.1 }}
-                className="glass px-6 py-3 rounded-lg text-sm md:text-base text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all cursor-default"
-                whileHover={{ scale: 1.05 }}
+                className="surface-card px-5 py-2.5 rounded-md text-sm text-muted-foreground"
               >
                 {client}
-              </motion.div>
+              </div>
             ))}
           </div>
         </motion.div>

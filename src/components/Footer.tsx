@@ -1,51 +1,44 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Heart } from "lucide-react";
+import ExpressDevLogo from "./ExpressDevLogo";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="py-8 border-t border-border">
+    <footer className="border-t border-border bg-secondary/40 py-12">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col md:flex-row items-center justify-between gap-4"
-        >
-          <div className="text-sm text-muted-foreground">
-            © {currentYear} Anderson Mautone. Todos os direitos reservados.
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
+          <div>
+            <ExpressDevLogo />
+            <p className="mt-4 max-w-sm text-sm text-muted-foreground leading-relaxed">
+              Desenvolvimento de software, arquitetura e GenAI para empresas.
+              Liderado por Anderson Mautone.
+            </p>
           </div>
 
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <span>Desenvolvido com</span>
-            <Heart className="w-4 h-4 text-destructive fill-destructive" />
-            <span>e muito</span>
-            <span className="text-primary">código</span>
-          </div>
-
-          <nav className="flex flex-wrap justify-center gap-6">
-            <Link
-              to="/conhecimentos"
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
+          <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+            <a href="/#servicos" className="text-muted-foreground hover:text-primary">
+              Serviços
+            </a>
+            <a href="/#projetos" className="text-muted-foreground hover:text-primary">
+              Projetos
+            </a>
+            <Link to="/conhecimentos" className="text-muted-foreground hover:text-primary">
               Conhecimentos
             </Link>
-            <Link
-              to="/curriculo"
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
+            <Link to="/curriculo" className="text-muted-foreground hover:text-primary">
               Currículo
             </Link>
-            <a
-              href="/#contato"
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
+            <a href="/#contato" className="text-muted-foreground hover:text-primary">
               Contato
             </a>
           </nav>
-        </motion.div>
+        </div>
+
+        <div className="mt-10 pt-6 border-t border-border text-sm text-muted-foreground">
+          © {currentYear} Express Dev · Anderson Mautone. Todos os direitos
+          reservados.
+        </div>
       </div>
     </footer>
   );

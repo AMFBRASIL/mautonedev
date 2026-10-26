@@ -71,14 +71,8 @@ const KnowledgeArticle = () => {
       />
       <article>
         <header className="mb-10">
-          <div
-            className="w-14 h-14 rounded-xl flex items-center justify-center mb-5"
-            style={{ background: "var(--gradient-primary)" }}
-          >
-            <KnowledgeIcon
-              name={article.icon}
-              className="w-7 h-7 text-primary-foreground"
-            />
+          <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-secondary text-primary">
+            <KnowledgeIcon name={article.icon} className="w-6 h-6" />
           </div>
           <p className="text-sm uppercase tracking-[0.16em] text-primary mb-2">
             Conhecimento técnico
@@ -123,7 +117,7 @@ const KnowledgeArticle = () => {
           <h2 className="text-2xl font-semibold mb-4">Perguntas frequentes</h2>
           <div className="space-y-4">
             {article.faqs.map((faq) => (
-              <div key={faq.question} className="glass rounded-xl p-5">
+              <div key={faq.question} className="surface-card rounded-xl p-5">
                 <h3 className="font-semibold mb-2">{faq.question}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   {faq.answer}
@@ -140,7 +134,7 @@ const KnowledgeArticle = () => {
               <Link
                 key={item.slug}
                 to={`/conhecimentos/${item.slug}`}
-                className="glass px-4 py-2 rounded-lg text-sm text-muted-foreground hover:text-primary"
+                className="surface-card px-4 py-2 rounded-md text-sm text-muted-foreground hover:text-primary"
               >
                 {item.title}
               </Link>

@@ -31,9 +31,21 @@ export const sendEmail = async (req: Request, res: Response) => {
     }
 
     console.error("Error sending email:", error);
-    res.status(500).json({
+    const details =
+      error && typeof error === "object" && "details" in error
+        ? String((error as { details?: unknown }).details)
+        : error instanceof Error
+          ? error.message
+          : "unknown";
+    const status =
+      error && typeof error === "object" && "status" in error
+        ? Number((error as { status?: unknown }).status)
+        : 500;
+
+    res.status(status >= 400 && status < 600 ? status : 500).json({
       success: false,
       message: "Erro ao enviar email. Tente novamente mais tarde.",
+      ...(process.env.NODE_ENV !== "production" ? { details } : {}),
     });
   }
 };

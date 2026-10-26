@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Mail, Linkedin, Github, Send, MapPin, Phone, Loader2 } from "lucide-react";
+import { Mail, Linkedin, Send, MapPin, Phone, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 // Em produção, usar URL relativa. Em desenvolvimento, usar variável de ambiente ou localhost
@@ -37,7 +37,8 @@ const ContactSection = () => {
       if (response.ok && data.success) {
         toast({
           title: "Mensagem enviada!",
-          description: "Entrarei em contato em breve.",
+          description:
+            "Recebemos seu contato. Você também receberá um e-mail de confirmação.",
         });
         setFormData({ name: "", email: "", subject: "", message: "" });
       } else {
@@ -70,13 +71,15 @@ const ContactSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Entre em <span className="gradient-text">Contato</span>
+          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary mb-3">
+            Contato
+          </p>
+          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
+            Vamos falar do projeto da sua empresa
           </h2>
-          <div className="w-24 h-1 mx-auto rounded-full" style={{ background: "var(--gradient-primary)" }} />
-          <p className="text-muted-foreground mt-6 max-w-2xl mx-auto">
-            Tem um projeto em mente? Vamos conversar sobre como posso ajudar a
-            transformar suas ideias em realidade.
+          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto text-lg">
+            Conte o desafio — sistema, integração, GenAI ou produto. Retornamos
+            com uma proposta objetiva.
           </p>
         </motion.div>
 
@@ -89,20 +92,22 @@ const ContactSection = () => {
             className="space-y-8"
           >
             <div>
-              <h3 className="text-2xl font-bold mb-4">Vamos Trabalhar Juntos</h3>
-              <p className="text-muted-foreground">
-                Estou disponível para projetos freelance, consultoria e
-                oportunidades de longo prazo. Se você tem uma ideia ou um
-                desafio técnico, estou pronto para ajudar.
+              <h3 className="font-display text-2xl font-bold mb-4">
+                Express Dev — atendimento comercial
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Projetos sob demanda, consultoria de arquitetura e desenvolvimento
+                contínuo. Ideal para empresas que precisam de um parceiro técnico
+                com visão de negócio e entrega em produção.
               </p>
             </div>
 
             <div className="space-y-4">
               <motion.div
-                className="flex items-center gap-4 p-4 glass rounded-lg"
+                className="flex items-center gap-4 p-4 surface-card rounded-lg"
                 whileHover={{ x: 5 }}
               >
-                <div className="w-12 h-12 rounded-lg flex items-center justify-center text-primary-foreground" style={{ background: "var(--gradient-primary)" }}>
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center bg-secondary text-primary">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
@@ -112,10 +117,10 @@ const ContactSection = () => {
               </motion.div>
 
               <motion.div
-                className="flex items-center gap-4 p-4 glass rounded-lg"
+                className="flex items-center gap-4 p-4 surface-card rounded-lg"
                 whileHover={{ x: 5 }}
               >
-                <div className="w-12 h-12 rounded-lg flex items-center justify-center text-primary-foreground" style={{ background: "var(--gradient-primary)" }}>
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center bg-secondary text-primary">
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
@@ -125,10 +130,10 @@ const ContactSection = () => {
               </motion.div>
 
               <motion.div
-                className="flex items-center gap-4 p-4 glass rounded-lg"
+                className="flex items-center gap-4 p-4 surface-card rounded-lg"
                 whileHover={{ x: 5 }}
               >
-                <div className="w-12 h-12 rounded-lg flex items-center justify-center text-primary-foreground" style={{ background: "var(--gradient-primary)" }}>
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center bg-secondary text-primary">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
@@ -141,14 +146,13 @@ const ContactSection = () => {
             {/* Social Links */}
             <div className="flex gap-4">
               {[
-                { icon: <Linkedin className="w-5 h-5" />, href: "#", label: "LinkedIn" },
-                { icon: <Github className="w-5 h-5" />, href: "#", label: "GitHub" },
+                { icon: <Linkedin className="w-5 h-5" />, href: "https://www.linkedin.com/in/anderson-mautone-a005b9a/", label: "LinkedIn" },
                 { icon: <Mail className="w-5 h-5" />, href: "mailto:contato@mautone.com.br", label: "Email" },
               ].map((social) => (
                 <motion.a
                   key={social.label}
                   href={social.href}
-                  className="glass p-4 rounded-lg text-muted-foreground hover:text-primary transition-colors"
+                  className="surface-card p-4 rounded-lg text-muted-foreground hover:text-primary transition-colors"
                   whileHover={{ scale: 1.1, y: -3 }}
                   aria-label={social.label}
                 >
@@ -166,7 +170,7 @@ const ContactSection = () => {
           >
             <form
               onSubmit={handleSubmit}
-              className="glass rounded-2xl p-8 space-y-6"
+              className="surface-card rounded-xl p-8 space-y-6"
             >
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
@@ -248,10 +252,9 @@ const ContactSection = () => {
               <motion.button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-4 rounded-lg font-semibold text-primary-foreground flex items-center justify-center gap-2 glow-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ background: "var(--gradient-primary)" }}
-                whileHover={!isSubmitting ? { scale: 1.02 } : {}}
-                whileTap={!isSubmitting ? { scale: 0.98 } : {}}
+                className="cta-hot w-full py-4 rounded-md font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                whileHover={!isSubmitting ? { scale: 1.01 } : {}}
+                whileTap={!isSubmitting ? { scale: 0.99 } : {}}
               >
                 {isSubmitting ? (
                   <>
@@ -260,7 +263,7 @@ const ContactSection = () => {
                   </>
                 ) : (
                   <>
-                    Enviar Mensagem
+                    Solicitar proposta
                     <Send className="w-5 h-5" />
                   </>
                 )}
