@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Seo from "./components/Seo";
+import WhatsAppFloat from "./components/WhatsAppFloat";
 import Index from "./pages/Index";
 import Curriculum from "./pages/Curriculum";
 import KnowledgeHub from "./pages/KnowledgeHub";
@@ -25,6 +26,7 @@ const App = () => (
         }}
       >
         <Seo />
+        <WhatsAppFloat />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/curriculo" element={<Curriculum />} />
